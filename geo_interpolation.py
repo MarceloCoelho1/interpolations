@@ -16,10 +16,10 @@ def geo_interpolation(x, x1, frame1_path, x2, frame2_path, output_path):
     cv2.imwrite(output_path, interpolated_frame)
 
 # Exemplo de uso:
-x1, frame1_path = 1, "/home/celin/Desktop/interpolation/frames/frame_0001.png"
-x2, frame2_path = 100, "/home/celin/Desktop/interpolation/frames/frame_0100.png"
-x_interpolate = 50
-output_path = "/home/celin/Desktop/interpolation/frames/frame_0050geo_interpolate.png"
+x1, frame1_path = 2, "/home/celin/Desktop/interpolation/frames/frame_0002.png"
+x2, frame2_path = 5, "/home/celin/Desktop/interpolation/frames/frame_0005.png"
+x_interpolate = 3
+output_path = "/home/celin/Desktop/interpolation/frames/frame_003geo_interpolate.png"
 
 
 geo_interpolation(x_interpolate, x1, frame1_path, x2, frame2_path, output_path)
