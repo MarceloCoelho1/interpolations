@@ -32,11 +32,11 @@ def calculate_truncation_error(x, x1, x2, frame1, frame2):
 x1, frame1_path = 2, "/home/celin/Desktop/interpolation/frames/frame_0002.png"
 x2, frame2_path = 5, "/home/celin/Desktop/interpolation/frames/frame_0005.png"
 x_interpolate = 3
-frame1 = cv2.imread(frame1_path)
-frame2 = cv2.imread(frame2_path)
+frame1 = cv2.imread(frame1_path, cv2.IMREAD_COLOR)
+frame2 = cv2.imread(frame2_path, cv2.IMREAD_COLOR)
 
 result = linear_interpolation(x_interpolate, x1, frame1_path, x2, frame2_path)
 # cv2.imwrite('/home/celin/Desktop/interpolation/frames/frame_0003_interpolate.png', result)
 
 truncation_error = calculate_truncation_error(x_interpolate, x1, x2, frame1, frame2)
-print(truncation_error)
+
