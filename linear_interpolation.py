@@ -1,42 +1,29 @@
 import cv2
 import numpy as np
+import os
 
-def linear_interpolation(x, x1, frame1_path, x2, frame2_path):
-
-    frame1 = cv2.imread(frame1_path)
-    frame2 = cv2.imread(frame2_path)
+def linear_interpolation(x, x1, frame1_path, x2, frame2_path, output_path):
+    # Carrega os frames
+    frame1 = cv2.imread(frame1_path).astype(float)
+    frame2 = cv2.imread(frame2_path).astype(float)
 
     if x1 == x2:
         raise ValueError("Os pontos x1 e x2 não podem ser iguais para a interpolação linear.")
 
 
     interpolated_frame = frame1 + (x - x1) * (frame2 - frame1) / (x2 - x1)
+    interpolated_frame = np.nan_to_num(interpolated_frame, nan=-999999999, posinf=999999999, neginf=-999999999)
 
+    # Converte o resultado de volta para o tipo de dados adequado
+    interpolated_frame = interpolated_frame.astype(np.uint8)
+    
+    cv2.imwrite(output_path, interpolated_frame)
 
-    return interpolated_frame.astype(np.uint8)
+# Restante do código permanece o mesmo
+current_working_directory = os.getcwd()
+x1, frame1_path = 1, f"{current_working_directory}/frames/frame_0001.png"
+x2, frame2_path = 24, f"{current_working_directory}/frames/frame_0024.png"
+x_interpolate = 12
+output_path = f"{current_working_directory}/frames/frame_0012_interpolate.png"
 
-def calculate_second_derivative(frame, x):
-
-    f_xx = frame[x + 1] - 2 * frame[x] + frame[x - 1]
-    return f_xx
-
-def calculate_truncation_error(x, x1, x2, frame1, frame2):
-
-    f_double_prime = calculate_second_derivative(frame1, x1) / 2 + calculate_second_derivative(frame2, x2) / 2
-
-
-    error = ((x - x1) * (x - x2) / 2) * f_double_prime
-    return error
-
-# Exemplo de uso:
-x1, frame1_path = 2, "/home/celin/Desktop/interpolation/frames/frame_0002.png"
-x2, frame2_path = 5, "/home/celin/Desktop/interpolation/frames/frame_0005.png"
-x_interpolate = 3
-frame1 = cv2.imread(frame1_path, cv2.IMREAD_COLOR)
-frame2 = cv2.imread(frame2_path, cv2.IMREAD_COLOR)
-
-result = linear_interpolation(x_interpolate, x1, frame1_path, x2, frame2_path)
-# cv2.imwrite('/home/celin/Desktop/interpolation/frames/frame_0003_interpolate.png', result)
-
-truncation_error = calculate_truncation_error(x_interpolate, x1, x2, frame1, frame2)
-
+linear_interpolation(x_interpolate, x1, frame1_path, x2, frame2_path, output_path)
