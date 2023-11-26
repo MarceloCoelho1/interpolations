@@ -37,7 +37,8 @@ def extract_frames(video_path, output_folder):
     print(f"{frame_count} frames extraídos com sucesso.")
 
 # Exemplo de uso:
-video_path = "/home/celin/Desktop/interpolation/example.mp4"
-output_folder = "/home/celin/Desktop/interpolation/frames"
+current_working_directory = os.getcwd()
+video_path = f'{current_working_directory}/content/example.mp4'
+output_folder = f'{current_working_directory}/frames/'
 
 extract_frames(video_path, output_folder)
