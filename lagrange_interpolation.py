@@ -1,5 +1,7 @@
 import numpy as np
 import cv2
+import os
+
 
 def lagrange_interpolation_frames(x, frames, x_new, output_path):
     n = len(x)
@@ -29,9 +31,10 @@ def lagrange_interpolation_frames(x, frames, x_new, output_path):
         cv2.imwrite(output_path.format(channel=channel), interpolated_frame)
 
 # Exemplo de uso:
-x = np.array([2, 100])
-frames = ["/home/celin/Desktop/interpolation/frames/frame_0002.png", "/home/celin/Desktop/interpolation/frames/frame_0100.png"]
-x_new = 50
-output_path = "/home/celin/Desktop/interpolation/frames/frame_050_interpolatedlagrange.png"
+x = np.array([50, 52])
+current_working_directory = os.getcwd()
+frames = [f"{current_working_directory}/frames/frame_0050.png", f"{current_working_directory}/frames/frame_0052.png"]
+x_new = 51
+output_path = f"{current_working_directory}/frames/frame_0051_interpolatedlagrange.png"
 
 lagrange_interpolation_frames(x, frames, x_new, output_path)
