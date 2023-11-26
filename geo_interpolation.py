@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
+import os
 
-def geo_interpolation(x, x1, frame1_path, x2, frame2_path):
-
+def geo_interpolation(x, x1, frame1_path, x2, frame2_path, output_path):
+    
+    # Carrega os frames
     frame1 = cv2.imread(frame1_path)
     frame2 = cv2.imread(frame2_path)
 
@@ -12,6 +14,8 @@ def geo_interpolation(x, x1, frame1_path, x2, frame2_path):
 
     alpha = (x - x1) / (x2 - x1)
     interpolated_frame = cv2.pow(frame2 / frame1, alpha) * frame1
+    
+    interpolated_frame = np.nan_to_num(interpolated_frame, nan=-999999999, posinf=999999999, neginf=-999999999)
 
     return interpolated_frame.astype(np.uint8)
 
@@ -29,15 +33,8 @@ def calculate_truncation_error(x, x1, x2, frame1, frame2):
     return error
 
 # Exemplo de uso:
-x1, frame1_path = 2, "/home/celin/Desktop/interpolation/frames/frame_0002.png"
-x2, frame2_path = 5, "/home/celin/Desktop/interpolation/frames/frame_0005.png"
-x_interpolate = 3
-
-frame1 = cv2.imread(frame1_path, cv2.IMREAD_COLOR)
-frame2 = cv2.imread(frame2_path, cv2.IMREAD_COLOR)
-
-result = geo_interpolation(x_interpolate, x1, frame1_path, x2, frame2_path)
-
-
-truncation_error = calculate_truncation_error(x_interpolate, x1, x2, frame1, frame2)
-print(truncation_error)
+current_working_directory = os.getcwd()
+x1, frame1_path = 50, f"{current_working_directory}/frames/frame_0050.png"
+x2, frame2_path = 100, f"{current_working_directory}/frames/frame_0100.png"
+x_interpolate = 75
+output_path = f"{current_working_directory}/frames/frame_0075_geo_interpolate.png"
